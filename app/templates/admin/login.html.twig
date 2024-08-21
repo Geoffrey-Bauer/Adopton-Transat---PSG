@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap');
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            background-color: #0a0a0a;
+            color: #fff;
+        }
+
+        .login-container {
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            width: 400px;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
+            position: relative;
+        }
+
+        .login-header {
+            background: url('{{ asset('images/psg-logo.svg.png') }}') center/cover;
+            height: 150px;
+            position: relative;
+        }
+
+        .login-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .login-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .login-logo img {
+            max-width: 100px;
+        }
+
+        .login-body {
+            padding: 40px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-control {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #ffd700;
+            border-radius: 0;
+            padding: 10px 0;
+            color: #fff;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-login {
+            background-color: #ffd700;
+            color: #0a0a0a;
+            border: none;
+            padding: 12px 0;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn-login:hover {
+            background-color: #fff;
+            color: #0a0a0a;
+        }
+
+        .alert {
+            background-color: rgba(220, 53, 69, 0.1);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="{{ asset('images/psg-logo.svg.png') }}" alt="Logo">
+                </div>
+            </div>
+            <div class="login-body">
+                <h1>Accès Privilégié</h1>
+
+                {% if error %}
+                    <div class="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <form method="post">
+                    <div class="form-group">
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required autofocus>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button class="btn btn-login btn-block w-100" type="submit">Entrer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

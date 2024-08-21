@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adopton Transat - PSG Beach Experience{% endblock %}
+
+{% block body %}
+    <div class="psg-background">
+        <div class="container position-relative">
+            <header class="text-center mb-5 pt-5">
+                <img src="{{ asset('images/psg-logo.svg.png') }}" alt="PSG Logo" class="psg-logo">
+                <h1 class="page-title">Adopton Transat</h1>
+                <p class="lead text-white">Réservez votre transat et profitez du soleil avec style !</p>
+            </header>
+
+            <!-- Sélecteur de date amélioré -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        <input type="text" id="dateSelector" class="form-control" placeholder="Sélectionnez une date" value="{{ selectedDate }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton d'accès au backoffice -->
+            <a href="{{ path('admin_login') }}" class="btn btn-secondary position-absolute top-0 end-0 mt-3 me-3">
+                <i class="fas fa-lock me-2"></i>Backoffice
+            </a>
+
+            <!-- Emplacement dédié pour les messages -->
+            <div id="message-container" class="mb-4"></div>
+
+            <div class="transat-grid">
+                {% for transat in transats %}
+                    <div class="transat-card">
+                        <div class="transat-header">
+                            <i class="fas fa-umbrella-beach me-2"></i>Transat {{ transat.numT }}
+                        </div>
+                        <div class="transat-body">
+                            {% for slot in timeSlots %}
+                                {% set startTime = slot %}
+                                {% set endTime = slot|date_modify('+3 hours')|date('H:i') %}
+                                {% set isReserved = false %}
+                                {% for reservation in transat.reservations %}
+                                    {% if reservation.startTime|date('Y-m-d H:i') == selectedDate ~ ' ' ~ startTime %}
+                                        {% set isReserved = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                <div class="time-slot">
+                                    <div class="time-slot-info">
+                                        <span class="time-slot-status {% if isReserved %}reserved{% else %}available{% endif %}"></span>
+                                        <span>{{ startTime }} - {{ endTime }}</span>
+                                    </div>
+                                    {% if not isReserved %}
+                                        <button class="btn-action btn-reserve" data-bs-toggle="modal" data-bs-target="#reservationModal" data-transat-id="{{ transat.id }}" data-start-time="{{ selectedDate }} {{ startTime }}">
+                                            Réserver
+                                        </button>
+                                    {% else %}
+                                        <button class="btn-action btn-cancel" data-bs-toggle="modal" data-bs-target="#cancellationModal" data-transat-id="{{ transat.id }}" data-start-time="{{ selectedDate }} {{ startTime }}">
+                                            Annuler
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de réservation -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel"><i class="fas fa-bookmark me-2"></i>Réserver un transat</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reservationForm">
+                        <input type="hidden" id="reservationTransatId" name="transatId">
+                        <input type="hidden" id="reservationStartTime" name="startTime">
+                        <div class="mb-3">
+                            <label for="reservationPassword" class="form-label"><i class="fas fa-lock me-2"></i>Mot de passe</label>
+                            <input type="password" class="form-control" id="reservationPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100"><i class="fas fa-check me-2"></i>Confirmer la réservation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'annulation -->
+    <div class="modal fade" id="cancellationModal" tabindex="-1" aria-labelledby="cancellationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancellationModalLabel"><i class="fas fa-times me-2"></i>Annuler une réservation</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="cancellationForm">
+                        <input type="hidden" id="cancellationTransatId" name="transatId">
+                        <input type="hidden" id="cancellationStartTime" name="startTime">
+                        <div class="mb-3">
+                            <label for="cancellationPassword" class="form-label"><i class="fas fa-lock me-2"></i>Mot de passe</label>
+                            <input type="password" class="form-control" id="cancellationPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100"><i class="fas fa-trash-alt me-2"></i>Confirmer l'annulation</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

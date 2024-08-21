@@ -1,0 +1,164 @@
+:root {
+    --psg-blue: #004170;
+    --psg-red: #e30613;
+    --psg-gold: #b9a55a;
+    --light-gray: #f4f4f4;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--light-gray);
+}
+
+.psg-background {
+    background: linear-gradient(135deg, var(--psg-blue), #00234c);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.psg-logo {
+    height: 80px;
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    color: white;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.transat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.transat-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+.transat-header {
+    background-color: var(--psg-blue);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.transat-body {
+    padding: 1rem;
+}
+
+.time-slot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.time-slot:last-child {
+    border-bottom: none;
+}
+
+.time-slot-info {
+    display: flex;
+    align-items: center;
+}
+
+.time-slot-status {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.time-slot-status.available {
+    background-color: #4CAF50;
+}
+
+.time-slot-status.reserved {
+    background-color: var(--psg-red);
+}
+
+.btn-action {
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-reserve {
+    background-color: var(--psg-blue);
+}
+
+.btn-reserve:hover {
+    background-color: #00234c;
+}
+
+.btn-cancel {
+    background-color: var(--psg-red);
+}
+
+.btn-cancel:hover {
+    background-color: #c70512;
+}
+
+.modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.modal-header {
+    background-color: var(--psg-blue);
+    color: white;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+/******************************************/
+/*             ADMINISTRATION             */
+/******************************************/
+
+.container {
+    margin-top: 20px;
+}
+
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: var(--psg-blue);
+    color: white;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-danger {
+    background-color: var(--psg-red);
+    border-color: var(--psg-red);
+}
+
+.btn-danger:hover {
+    background-color: #c70512;
+    border-color: #c70512;
+}
