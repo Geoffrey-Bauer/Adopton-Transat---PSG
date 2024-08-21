@@ -27,7 +27,7 @@ Suivez ces étapes pour installer et lancer le projet :
    `docker exec -it phptransat composer install`
  ## 🎉 C'est parti !
 
-Votre application est maintenant prête ! Ouvrez votre navigateur et accédez à `http://localhost:8000` pour commencer à réserver vos transats.
+Votre application est maintenant prête ! Ouvrez votre navigateur et accédez à `http://localhost` pour commencer à réserver vos transats.
 
 ## 🌟 Fonctionnalités
 
